@@ -1,7 +1,5 @@
-import http from 'http'
-import { App } from './app'
+const http = require('http')
+const app = require('./app')
 
-const app = new App()
-const httpServer = http.createServer(app.express)
-
+const httpServer = http.createServer(app)
 httpServer.listen(3000)

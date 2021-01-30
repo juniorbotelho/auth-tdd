@@ -1,8 +1,8 @@
-import express from 'express'
-import bodyParser from 'body-parser'
-import Router from './app/routes'
+const express = require('express')
+const bodyParser = require('body-parser')
+const Router = require('./app/routes')
 
-export class App {
+class App {
   constructor() {
     this.express = express()
 
@@ -21,3 +21,6 @@ export class App {
     this.express.use(Router)
   }
 }
+
+// Exports
+module.exports = new App().express
