@@ -9,36 +9,32 @@ describe('Authentication', () => {
   })
 
   // Hooks
-  const useModel = async () => {
+  const useModel = async (password) => {
     return await User.create({
       name: 'Diego',
       email: 'diego@rocketseat.com.br',
-      password: 'KEqNTAloy'
+      password
     })
   }
 
-  it('must authenticate with valid credentials', async () => {
-    const user = await useModel()
-
-    // makes an internal request and awaits the response
-    const response = await request(app)
+  const useResponse = async (email, password) => {
+    return await request(app)
       .post('/sessions').send({
-        email: user.email,
-        password: 'KEqNTAloy'
+        email,
+        password
       })
+  }
+
+  it('must authenticate with valid credentials', async () => {
+    const user = await useModel('KEqNTAloy')
+    const response = await useResponse(user.email, 'KEqNTAloy')
 
     expect(response.status).toBe(200)
   })
 
   it('does not allow invalid authentication', async () => {
-    const user = await useModel()
-
-    // makes an internal request and awaits the response
-    const response = await request(app)
-      .post('/sessions').send({
-        email: user.email,
-        password: '12345678'
-      })
+    const user = await useModel('KEqNTAloy')
+    const response = await useResponse(user.email, '12345678')
 
     expect(response.status).toBe(401)
   })
