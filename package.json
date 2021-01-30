@@ -7,10 +7,11 @@
     "dev": "nodemon --ignore 'tests' src/server.js",
     "start": "node server/js",
     "build": "",
-    "test": "jest"
+    "test": "NODE_ENV=test jest"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mysql2": "^2.2.5",
     "sequelize": "^6.5.0"
