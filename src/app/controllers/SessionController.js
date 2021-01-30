@@ -5,7 +5,9 @@ class SessionController {
     const { email, password } = request.body
 
     const user = await User.findOne({ where: { email } })
-    const check = await user.check(password)
+
+    const check = await user.checkPassword(password)
+    const token = await user.generateToken()
 
     if (!user) {
       return response.status(401).json({
@@ -20,7 +22,7 @@ class SessionController {
     }
 
     // Success
-    response.status(200).json({ user })
+    response.status(200).json({ user, token })
   }
 }
 
