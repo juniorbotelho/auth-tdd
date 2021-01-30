@@ -7,7 +7,9 @@
     "dev": "nodemon --ignore 'tests' src/server.js",
     "start": "node server/js",
     "build": "",
-    "test": "NODE_ENV=test jest"
+    "pretest": "NODE_ENV=test sequelize db:migrate",
+    "test": "NODE_ENV=test jest",
+    "posttest": "NODE_ENV=test sequelize db:migrate:undo:all"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -19,6 +21,7 @@
   "devDependencies": {
     "jest": "^26.6.3",
     "nodemon": "^2.0.7",
-    "sequelize-cli": "^6.2.0"
+    "sequelize-cli": "^6.2.0",
+    "sqlite3": "^5.0.1"
   }
 }
