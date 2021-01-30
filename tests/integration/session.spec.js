@@ -13,7 +13,7 @@ describe('Authentication', () => {
     return await User.create({
       name: 'Diego',
       email: 'diego@rocketseat.com.br',
-      password_hash: 'KEqNTAloy'
+      password: 'KEqNTAloy'
     })
   }
 
