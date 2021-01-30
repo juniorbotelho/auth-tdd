@@ -1,7 +1,7 @@
 const request = require('supertest')
 const app = require('../../src/app')
 const truncate = require('../utils/truncate')
-const { User } = require('../../src/app/models')
+const factory = require('../utils/factories')
 
 describe('Authentication', () => {
   beforeEach(async () => {
@@ -10,11 +10,7 @@ describe('Authentication', () => {
 
   // Hooks
   const useModel = async (password) => {
-    return await User.create({
-      name: 'Diego',
-      email: 'diego@rocketseat.com.br',
-      password
-    })
+    return await factory.create('User', { password })
   }
 
   const useResponse = async (email, password) => {
@@ -37,5 +33,12 @@ describe('Authentication', () => {
     const response = await useResponse(user.email, '12345678')
 
     expect(response.status).toBe(401)
+  })
+
+  it('should return a jwt token after authentication', async () => {
+    const user = await useModel('KEqNTAloy')
+    const response = await useResponse(user.email, 'KEqNTAloy')
+
+    expect(response.body).toHaveProperty('token')
   })
 })
