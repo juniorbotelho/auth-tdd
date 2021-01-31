@@ -41,4 +41,29 @@ describe('Authentication', () => {
 
     expect(response.body).toHaveProperty('token')
   })
+
+  it('allows access to private routes if authenticated', async () => {
+    const user = await useModel('KEqNTAloy')
+
+    const response = await request(app)
+      .get('/dashboard')
+      .set('Authorization', `Bearer ${user.generateToken()}`)
+
+    expect(response.status).toBe(200)
+  })
+
+  it('does not allow access to private routes if unauthenticated', async () => {
+    const response = await request(app)
+      .get('/dashboard')
+
+    expect(response.status).toBe(401)
+  })
+
+  it('does not allow access to private routes if there is an invalid token', async () => {
+    const response = await request(app)
+      .get('/dashboard')
+      .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c')
+
+    expect(response.status).toBe(401)
+  })
 })
